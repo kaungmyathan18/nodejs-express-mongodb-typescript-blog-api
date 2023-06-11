@@ -1,0 +1,37 @@
+{
+    "compilerOptions": {
+        "esModuleInterop": true,
+        "moduleResolution": "node",
+        "sourceMap": true,
+        "target": "es2017",
+        "outDir": "./dist",
+        "baseUrl": "./src",
+        "alwaysStrict": true,
+        "noImplicitAny": true,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "paths": {
+            "@interfaces/*": [
+                "interfaces/*"
+            ],
+            "@exceptions/*": [
+                "exceptions/*"
+            ],
+            "@utils/*": [
+                "utils/*"
+            ],
+            "@features/*": [
+                "features/*"
+            ],
+            "@config/*": [
+                "config/*"
+            ]
+        }
+    },
+    "include": [
+        "src/**/*.ts"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}
