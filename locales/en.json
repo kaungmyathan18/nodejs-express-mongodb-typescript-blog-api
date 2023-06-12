@@ -1,0 +1,9 @@
+{
+	"Hello": "Hello",
+	"You have %s message": {
+		"one": "You have %s message",
+		"other": "You have %s message"
+	},
+	"Success": "Success",
+	"The post you are looking for is not found.": "The post you are looking for is not found."
+}

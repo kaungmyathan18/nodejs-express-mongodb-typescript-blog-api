@@ -64,6 +64,7 @@ export class PostController extends Controller {
     response: express.Response,
     next: express.NextFunction,
   ) {
+    console.log();
     try {
       const { page, rowsPerPage, searchKeywords } = getParsedPaginationData(
         request.query,
@@ -75,6 +76,7 @@ export class PostController extends Controller {
 
       const totalItems = await this.post.find(filter).count();
       const totalPages = Math.ceil(totalItems / rowsPerPage);
+      console.log(request.headers);
       return this.post
         .find(filter)
         .skip((page - 1) * rowsPerPage)
@@ -91,6 +93,7 @@ export class PostController extends Controller {
               rowsPerPage,
             },
             items: res,
+            message: response.__('Success'),
           }),
         );
     } catch (error) {
@@ -109,7 +112,11 @@ export class PostController extends Controller {
       if (post) {
         return response.json(post);
       }
-      next(new NotFoundException('The post you are looking for is not found.'));
+      next(
+        new NotFoundException(
+          response.__('The post you are looking for is not found.'),
+        ),
+      );
     } catch (error) {
       if (error.name === 'CastError') {
         // Handle ID cast error
