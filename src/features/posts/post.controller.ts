@@ -3,6 +3,7 @@ import { InvalidIdExeption } from '@exceptions/invalidId.exception';
 import NotFoundException from '@exceptions/notFound.exception';
 import { Controller } from '@interfaces/controller.interface';
 import validationMiddleware from '@middlewares/validation.middleware';
+import { getParsedPaginationData } from '@utils/functions';
 import * as express from 'express';
 import httpStatus from 'http-status';
 import { CreatePostDTO } from './dto/create-post.dto';
@@ -58,16 +59,38 @@ export class PostController extends Controller {
       .catch((error) => next(error));
   }
 
-  private getPosts(
+  private async getPosts(
     request: express.Request,
     response: express.Response,
     next: express.NextFunction,
   ) {
-    return this.post
-      .find()
-      .lean()
-      .then((res) => response.json(res))
-      .catch((error) => next(error));
+    try {
+      console.log(request.query);
+      const { page, rowsPerPage } = getParsedPaginationData(request.query);
+      const totalItems = await this.post.find().count();
+      const totalPages = totalItems / rowsPerPage;
+      console.log({ page, rowsPerPage });
+      return this.post
+        .find()
+        .skip((page - 1) * rowsPerPage)
+        .limit(rowsPerPage)
+        .lean()
+        .then((res) =>
+          response.json({
+            pagination: {
+              count: res.length,
+              currentPage: page,
+              nextPage: page + 1 > totalPages ? null : page + 1,
+              totalItems,
+              totalPages,
+              rowsPerPage,
+            },
+            items: res,
+          }),
+        );
+    } catch (error) {
+      next(error);
+    }
   }
 
   private async getPost(
