@@ -11,6 +11,9 @@
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
         "paths": {
+            "@middlewares/*": [
+                "middlewares/*"
+            ],
             "@interfaces/*": [
                 "interfaces/*"
             ],
