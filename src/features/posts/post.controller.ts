@@ -65,13 +65,18 @@ export class PostController extends Controller {
     next: express.NextFunction,
   ) {
     try {
-      console.log(request.query);
-      const { page, rowsPerPage } = getParsedPaginationData(request.query);
-      const totalItems = await this.post.find().count();
-      const totalPages = totalItems / rowsPerPage;
-      console.log({ page, rowsPerPage });
+      const { page, rowsPerPage, searchKeywords } = getParsedPaginationData(
+        request.query,
+      );
+      const filter =
+        searchKeywords.trim().length === 0
+          ? {}
+          : { $text: { $search: searchKeywords } };
+
+      const totalItems = await this.post.find(filter).count();
+      const totalPages = Math.ceil(totalItems / rowsPerPage);
       return this.post
-        .find()
+        .find(filter)
         .skip((page - 1) * rowsPerPage)
         .limit(rowsPerPage)
         .lean()

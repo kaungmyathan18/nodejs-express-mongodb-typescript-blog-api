@@ -3,8 +3,13 @@ import slugify from 'slugify';
 
 const postSchema = new Schema(
   {
-    title: String,
-    body: String,
+    title: {
+      type: String,
+      index: 'text',
+    },
+    body: {
+      type: String,
+    },
     slug: {
       type: String,
       unique: true,

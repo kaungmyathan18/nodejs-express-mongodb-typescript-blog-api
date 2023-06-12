@@ -13,5 +13,6 @@ export function getParsedPaginationData(payload: any): IPagination {
     page: parseInt(payload?.page) || DEFAULT_PAGINATION_DATA.page,
     rowsPerPage:
       parseInt(payload?.rowsPerPage) || DEFAULT_PAGINATION_DATA.rowsPerPage,
+    searchKeywords: payload?.searchKeywords || '',
   };
 }
