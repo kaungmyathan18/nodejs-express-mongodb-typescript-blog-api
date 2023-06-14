@@ -1,4 +1,6 @@
 import { DEFAULT_PAGINATION_DATA } from '@config/constants';
+import i18n from '@config/i18n.config';
+import { InvalidIdExeption } from '@exceptions/invalidId.exception';
 import { IPagination } from '@interfaces/pagination.interface';
 
 export function isEmptyObject(obj: object) {
@@ -15,4 +17,17 @@ export function getParsedPaginationData(payload: any): IPagination {
       parseInt(payload?.rowsPerPage) || DEFAULT_PAGINATION_DATA.rowsPerPage,
     searchKeywords: payload?.searchKeywords || '',
   };
+}
+
+export function checkForInvalidIdException(error: any) {
+  console.log(error);
+  if (error.name === 'CastError') {
+    // Handle ID cast error
+    throw new InvalidIdExeption();
+  }
+  throw error;
+}
+
+export function translateMessage(message: string) {
+  return i18n.__(message);
 }

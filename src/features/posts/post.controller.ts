@@ -76,7 +76,6 @@ export class PostController extends Controller {
 
       const totalItems = await this.post.find(filter).count();
       const totalPages = Math.ceil(totalItems / rowsPerPage);
-      console.log(request.headers);
       return this.post
         .find(filter)
         .skip((page - 1) * rowsPerPage)

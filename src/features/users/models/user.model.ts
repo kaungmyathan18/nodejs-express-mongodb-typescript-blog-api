@@ -1,7 +1,10 @@
+import bcryptjs from 'bcryptjs';
 import { model, Schema } from 'mongoose';
 
 const UserSchema = new Schema(
   {
+    firstName: String,
+    lastName: String,
     username: {
       type: String,
       unique: true,
@@ -12,7 +15,24 @@ const UserSchema = new Schema(
   },
   {
     timestamps: true,
+    versionKey: false,
+    toJSON: {
+      virtuals: true,
+      transform: function (doc, ret) {
+        delete ret._id; // Exclude _id field
+      },
+    },
   },
 );
+
+UserSchema.virtual('fullName').get(function () {
+  return this.firstName + ' ' + this.lastName;
+});
+
+UserSchema.pre('save', async function () {
+  if (this.password) {
+    this.password = await bcryptjs.hash(this.password, 10);
+  }
+});
 
 export const UserModel = model('User', UserSchema);
