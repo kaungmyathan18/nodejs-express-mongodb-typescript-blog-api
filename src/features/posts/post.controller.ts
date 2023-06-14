@@ -64,7 +64,6 @@ export class PostController extends Controller {
     response: express.Response,
     next: express.NextFunction,
   ) {
-    console.log();
     try {
       const { page, rowsPerPage, searchKeywords } = getParsedPaginationData(
         request.query,
@@ -150,7 +149,6 @@ export class PostController extends Controller {
   ) {
     try {
       const result = await this.post.findByIdAndDelete(request.params.id);
-      console.log({ result });
       if (!result) {
         return next(
           new NotFoundException(`Post with ${request.params.id} not found.`),

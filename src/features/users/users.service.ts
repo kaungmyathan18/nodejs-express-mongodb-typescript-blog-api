@@ -62,7 +62,6 @@ export class UserService {
     try {
       return await this.userRepository.create(payload);
     } catch (error) {
-      console.log(error.code);
       if (error.code === 11000) {
         throw new ResourceConflictException(
           translateMessage('User with this name already exists'),
@@ -84,7 +83,6 @@ export class UserService {
           },
         },
       );
-      console.log({ result });
       return result;
     } catch (error) {
       throw error;

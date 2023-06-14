@@ -60,7 +60,6 @@ export class UserController extends Controller {
       });
       return response.json(results);
     } catch (error) {
-      console.log(error);
       return next(error);
     }
   }

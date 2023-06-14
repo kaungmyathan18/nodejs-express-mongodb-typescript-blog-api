@@ -20,7 +20,6 @@ export function getParsedPaginationData(payload: any): IPagination {
 }
 
 export function checkForInvalidIdException(error: any) {
-  console.log(error);
   if (error.name === 'CastError') {
     // Handle ID cast error
     throw new InvalidIdExeption();
