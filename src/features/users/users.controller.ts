@@ -8,7 +8,7 @@ import { UserService } from './users.service';
 
 export class UserController extends Controller {
   private userService = new UserService();
-  route = '/users';
+  route = '/v1/users';
   router = express.Router();
 
   constructor() {
@@ -27,15 +27,11 @@ export class UserController extends Controller {
 
   initializeRoutes() {
     this.router
-      .post(this.route, validationMiddleware(CreateUserDTO), this.createUser)
-      .get(`${this.route}/`, this.getUsers)
-      .get(`${this.route}/:id`, this.getUserById)
-      .put(
-        `${this.route}/:id`,
-        validationMiddleware(UpdateUserDTO),
-        this.updateUser,
-      )
-      .delete(`${this.route}/:id`, this.deleteUser);
+      .post('/', validationMiddleware(CreateUserDTO), this.createUser)
+      .get(`/`, this.getUsers)
+      .get(`/:id`, this.getUserById)
+      .put(`/:id`, validationMiddleware(UpdateUserDTO), this.updateUser)
+      .delete(`/:id`, this.deleteUser);
   }
 
   private async getUsers(

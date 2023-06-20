@@ -1,5 +1,7 @@
+import i18n from '@config/i18n.config';
 import HttpException from '@exceptions/http.exception';
 import { NextFunction, Request, Response } from 'express';
+import httpStatus from 'http-status';
 
 function errorMiddleware(
   error: HttpException,
@@ -7,11 +9,15 @@ function errorMiddleware(
   response: Response,
   next: NextFunction,
 ) {
-  const status = error.status || 500;
-  const message = error.message || 'Something went wrong';
-  response.status(status).send({
-    message,
-    status,
+  if (error.status) {
+    return response.json({
+      status: error.status,
+      message: error.message,
+    });
+  }
+  return response.send({
+    message: i18n.__('Something went wrong'),
+    status: httpStatus.INTERNAL_SERVER_ERROR,
   });
 }
 export default errorMiddleware;

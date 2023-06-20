@@ -5,6 +5,7 @@
         "sourceMap": true,
         "target": "es2017",
         "outDir": "./dist",
+        "skipLibCheck": true,
         "baseUrl": "./src",
         "alwaysStrict": true,
         "noImplicitAny": true,
@@ -29,10 +30,15 @@
             "@config/*": [
                 "config/*"
             ]
-        }
+        },
+        "typeRoots": [
+            "./src/types"
+        ]
     },
     "include": [
-        "src/**/*.ts"
+        "src/**/*.ts",
+        "src/types/**/*.ts",
+        "./types.d.ts"
     ],
     "exclude": [
         "node_modules"

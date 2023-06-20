@@ -2,6 +2,7 @@ import { InternalServerError } from '@exceptions/InternalServerError';
 import { InvalidIdExeption } from '@exceptions/invalidId.exception';
 import NotFoundException from '@exceptions/notFound.exception';
 import { Controller } from '@interfaces/controller.interface';
+import { AuthenticationMiddleware } from '@middlewares/authentication.middleware';
 import validationMiddleware from '@middlewares/validation.middleware';
 import { getParsedPaginationData } from '@utils/functions';
 import * as express from 'express';
@@ -10,18 +11,11 @@ import { CreatePostDTO } from './dto/create-post.dto';
 import { UpdatePostDTO } from './dto/update-post.dto';
 import { postModel } from './models/post.model';
 
-const tmpPosts = [
-  {
-    name: 'some name',
-    id: 'some id',
-  },
-];
-
 export class PostController extends Controller {
   private post = postModel;
   constructor() {
     super();
-    this.route = '/posts';
+    this.route = '/v1/posts';
     this.router = express.Router();
     this.bindMethods();
     this.initializeRoutes();
@@ -37,15 +31,12 @@ export class PostController extends Controller {
 
   initializeRoutes() {
     this.router
-      .post(this.route, validationMiddleware(CreatePostDTO), this.createPost)
-      .get(`${this.route}/`, this.getPosts)
-      .get(`${this.route}/:id`, this.getPost)
-      .put(
-        `${this.route}/:id`,
-        validationMiddleware(UpdatePostDTO),
-        this.updatePost,
-      )
-      .delete(`${this.route}/:id`, this.deletePost);
+      .use(AuthenticationMiddleware.loginRequired)
+      .post('/', validationMiddleware(CreatePostDTO), this.createPost)
+      .get(`/`, this.getPosts)
+      .get(`/:id`, this.getPost)
+      .put(`/:id`, validationMiddleware(UpdatePostDTO), this.updatePost)
+      .delete(`/:id`, this.deletePost);
   }
 
   private createPost(

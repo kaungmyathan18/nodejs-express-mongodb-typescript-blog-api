@@ -9,5 +9,12 @@
 	"User with this name already exists": "User with this name already exists",
 	"Invalid id value.": "Invalid id value.",
 	"User with given id not found.": "User with given id not found.",
-	"Successfully deleted the user.": "Successfully deleted the user."
+	"Successfully deleted the user.": "Successfully deleted the user.",
+	"Something went wrong": "Something went wrong",
+	"Invalid username/password.": "Invalid username/password.",
+	"Invalid username / password.": "Invalid username / password.",
+	"Unauthorized": "Unauthorized",
+	"Jwt token expired": "Jwt token expired",
+	"Logout Success": "Logout Success",
+	"Successfully delete the user account!": "Successfully delete the user account!"
 }

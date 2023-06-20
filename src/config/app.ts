@@ -39,7 +39,9 @@ export class App {
   }
 
   private initializeRoutes() {
-    this.controllers.map((controller) => this.app.use(controller.router));
+    this.controllers.map((controller) =>
+      this.app.use(controller.route, controller.router),
+    );
   }
 
   private listen() {
